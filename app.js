@@ -4,11 +4,20 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 
-var indexRouter = require('./routes/index')
+var app = express()
+// we'll load up node's built in file system helper library here
+// (we'll be using this later to serve our JSON files
+const fs = require('fs')
+const dataBuffer = fs.readFileSync('./data/user.json')
+const dataJSON = dataBuffer.toString()
+console.log('>>> : dataJSON', dataJSON)
+const data = JSON.parse(dataJSON) // read json file and change json object
+console.log('>>> : data', data)
+
+var indexRouter = require('./routes/index') // main route file
+// var indexRouter = require('./routes/index')(app, fs) // use json data file
 var usersRouter = require('./routes/users')
 var postsRouter = require('./routes/posts')
-
-var app = express()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -18,7 +27,7 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public'))) // pbulic folder
 
 // allow cross domain
 app.use(function (req, res, next) {
