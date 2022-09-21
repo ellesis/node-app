@@ -33,11 +33,9 @@ npm install nodemon -g
   },
 ```
 
-# --------------------------
-
 # start node server
 
-npm start:dev
+npm dev
 npm start
 
 http://localhost:5000/
